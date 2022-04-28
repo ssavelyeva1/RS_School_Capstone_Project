@@ -6,6 +6,11 @@ authors = ["Savelyeva_A <Aliaksandra.Savelyeva@ibm.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
+pandas = "^1.4.2"
+sklearn = "^0.0"
+scikit-learn = "^1.0.2"
+numpy = "^1.22.3"
+pandas-profiling = "^3.1.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

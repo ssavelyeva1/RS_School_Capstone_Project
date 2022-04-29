@@ -1,9 +1,11 @@
 from pathlib import Path
 import click
-from sklearn import ensemble
+import mlflow
 from sklearn import metrics
 from sklearn.metrics import accuracy_score
+
 from .data import dataset_split
+from .pipeline import create_pipeline
 
 
 @click.command()
@@ -27,8 +29,8 @@ from .data import dataset_split
     show_default=True,
 )
 @click.option(
-    "--n_estimators",
-    default=100,
+    "--min_samples_split",
+    default=2,
     type=int,
     show_default=True,
 )
@@ -48,16 +50,14 @@ def train_model(
     dataset_path: Path,
     random_state: int,
     test_split_ratio: float,
-    n_estimators: int,
+    min_samples_split: int,
     criterion: str,
     max_depth: int
 ):
-    x_train, x_test, y_train, y_test = dataset_split(
-        dataset_path,
-        random_state,
-        test_split_ratio
-    )
-    rf_clf = ensemble.RandomForestClassifier(n_estimators=n_estimators, criterion=criterion, max_depth=max_depth)
-    rf_clf.fit(x_train, y_train)
-    y_predicted = rf_clf.predict(x_test)
+    x_train, x_test, y_train, y_test = dataset_split(dataset_path, random_state, test_split_ratio)
+
+    pipe = create_pipeline(min_samples_split, criterion, max_depth, random_state)
+    pipe.fit(x_train, y_train)
+    y_predicted = pipe.predict(x_test)
+
     click.echo(metrics.accuracy_score(y_test, y_predicted))

@@ -1,6 +1,5 @@
 import pandas as pd
-
-PATH = "data/"
+from module_9_project.config import *
 
 
 def get_dataset():

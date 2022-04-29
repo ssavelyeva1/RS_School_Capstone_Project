@@ -1,4 +1,5 @@
 from pathlib import Path
+from joblib import dump
 import click
 import mlflow
 from sklearn import metrics
@@ -14,6 +15,13 @@ from .pipeline import create_pipeline
     "--dataset-path",
     default="data/train.csv",
     type=click.Path(exists=True, dir_okay=False, path_type=Path),
+    show_default=True,
+)
+@click.option(
+    "-s",
+    "--save-model-path",
+    default="data/model.joblib",
+    type=click.Path(dir_okay=False, writable=True, path_type=Path),
     show_default=True,
 )
 @click.option(
@@ -48,6 +56,7 @@ from .pipeline import create_pipeline
 )
 def train_model(
     dataset_path: Path,
+    save_model_path: Path,
     random_state: int,
     test_split_ratio: float,
     min_samples_split: int,
@@ -61,3 +70,5 @@ def train_model(
     y_predicted = pipe.predict(x_test)
 
     click.echo(metrics.accuracy_score(y_test, y_predicted))
+    dump(pipe, save_model_path)
+    click.echo(f"Model is saved to {save_model_path}.")

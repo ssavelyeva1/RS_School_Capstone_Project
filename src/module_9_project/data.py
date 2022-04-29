@@ -1,18 +1,18 @@
 import pandas as pd
 import click
+from pathlib import Path
 from sklearn.model_selection import train_test_split
-from module_9_project.config import *
 
 
-def get_dataset():
-    data = pd.read_csv(PATH + "train.csv")
+def get_dataset(file_path: Path):
+    data = pd.read_csv(file_path)
     features = data.drop("Cover_Type", axis=1)
     target = data["Cover_Type"]
     return data
 
 
-def dataset_split(random_state: int, test_split_ratio: float):
-    data = pd.read_csv(PATH + "train.csv")
+def dataset_split(file_path: Path, random_state: int, test_split_ratio: float):
+    data = pd.read_csv(file_path)
     click.echo(f"Dataset shape: {data.shape}.")
     features = data.drop("Cover_Type", axis=1)
     target = data["Cover_Type"]

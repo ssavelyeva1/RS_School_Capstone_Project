@@ -4,6 +4,9 @@ version = "0.1.0"
 description = ""
 authors = ["Savelyeva_A <Aliaksandra.Savelyeva@ibm.com>"]
 
+[tool.poetry.scripts]
+eda = "module_9_project.eda:get_eda_profile"
+
 [tool.poetry.dependencies]
 python = "^3.8"
 pandas = "1.3.5"

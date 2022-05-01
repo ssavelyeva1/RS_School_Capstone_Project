@@ -50,10 +50,17 @@ from .pipeline import create_pipeline
     show_default=True,
 )
 @click.option(
-    "-min",
-    "--min_samples_split",
-    default=2,
-    type=int,
+    "-mod",
+    "--model_name",
+    default="random_forest",
+    type=click.STRING,
+    show_default=True,
+)
+@click.option(
+    "-scale",
+    "--scaler_type",
+    default="standard",
+    type=str,
     show_default=True,
 )
 @click.option(
@@ -76,6 +83,7 @@ def train_model(
     random_state: int,
     test_split_ratio: float,
     model_name: str,
+    scaler_type: str,
     min_samples_split: int,
     criterion: str,
     max_depth: int
@@ -86,7 +94,7 @@ def train_model(
     if not mlflow.get_experiment_by_name(experiment_name):
         mlflow.create_experiment(name=experiment_name)
 
-    pipe = create_pipeline(min_samples_split, criterion, max_depth, random_state)
+    pipe = create_pipeline(model_name, scaler_type, min_samples_split, criterion, max_depth, random_state)
     pipe.fit(x_train, y_train)
     cv = KFold(n_splits=3, random_state=random_state, shuffle=True)
     y_predicted = pipe.predict(x_test)

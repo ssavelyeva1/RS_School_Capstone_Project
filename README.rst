@@ -1,1 +1,1 @@
-![Alt text](/data/mlflow.png?raw=true "MLFlow Task 8")
+![MLFlow experiments](https://raw.githubusercontent.com/ssavelyeva1/RS_School_Capstone_Project/master/.github/images/mlflow.png)

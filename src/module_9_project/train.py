@@ -1,10 +1,13 @@
 from pathlib import Path
 from joblib import dump
+import numpy as np
 import click
 import mlflow
 import mlflow.sklearn
 from sklearn import metrics
 from sklearn.metrics import accuracy_score, f1_score, precision_score
+from sklearn.model_selection import KFold
+from sklearn.model_selection import cross_val_score
 
 from .data import dataset_split
 from .pipeline import create_pipeline
@@ -72,12 +75,17 @@ def train_model(
 
     pipe = create_pipeline(min_samples_split, criterion, max_depth, random_state)
     pipe.fit(x_train, y_train)
+    cv = KFold(n_splits=3, random_state=random_state, shuffle=True)
     y_predicted = pipe.predict(x_test)
 
     with mlflow.start_run():
-        accuracy = metrics.accuracy_score(y_test, y_predicted)
-        f1 = metrics.f1_score(y_test, y_predicted, average='micro')
-        precision = metrics.precision_score(y_test, y_predicted, average='micro')
+        accuracy = np.max(cross_val_score(pipe, x_train, y_train, scoring='accuracy', cv=cv))
+        f1 = np.max(cross_val_score(pipe, x_train, y_train, scoring='f1_micro', cv=cv))
+        precision = np.max(cross_val_score(pipe, x_train, y_train, scoring='precision_micro', cv=cv))
+
+        #accuracy = metrics.accuracy_score(y_test, y_predicted)
+        #f1 = metrics.f1_score(y_test, y_predicted, average='micro')
+        #precision = metrics.precision_score(y_test, y_predicted, average='micro')
 
         model_parameters = {
             "min_samples_split": min_samples_split,

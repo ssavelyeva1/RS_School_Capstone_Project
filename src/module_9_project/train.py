@@ -66,22 +66,33 @@ def train_model(
 ):
     x_train, x_test, y_train, y_test = dataset_split(dataset_path, random_state, test_split_ratio)
 
+    experiment_name = "forest_experiment"
+    if not mlflow.get_experiment_by_name(experiment_name):
+        mlflow.create_experiment(name=experiment_name)
+
+    pipe = create_pipeline(min_samples_split, criterion, max_depth, random_state)
+    pipe.fit(x_train, y_train)
+    y_predicted = pipe.predict(x_test)
+
     with mlflow.start_run():
-        pipe = create_pipeline(min_samples_split, criterion, max_depth, random_state)
-        pipe.fit(x_train, y_train)
-        y_predicted = pipe.predict(x_test)
-
         accuracy = metrics.accuracy_score(y_test, y_predicted)
-        f1_score = metrics.f1_score(y_test, y_predicted)
-        precision = metrics.precision_score(y_test, y_predicted)
+        f1 = metrics.f1_score(y_test, y_predicted, average='micro')
+        precision = metrics.precision_score(y_test, y_predicted, average='micro')
 
-        mlflow.log_param("min_samples_split", min_samples_split)
-        mlflow.log_param("criterion", criterion)
-        mlflow.log_param("max_depth", max_depth)
+        model_parameters = {
+            "min_samples_split": min_samples_split,
+            "criterion": criterion,
+            "max_depth": max_depth
+        }
 
-        mlflow.log_metric("accuracy", accuracy)
-        mlflow.log_metric("f1_score", f1_score)
-        mlflow.log_metric("precision", precision)
+        model_metrics = {
+            "accuracy": accuracy,
+            "f1_score": f1,
+            "precision": precision
+        }
+
+        mlflow.log_params(model_parameters)
+        mlflow.log_metrics(model_metrics)
 
         click.echo(f"Accuracy: {accuracy}")
         dump(pipe, save_model_path)

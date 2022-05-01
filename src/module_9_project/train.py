@@ -29,30 +29,42 @@ from .pipeline import create_pipeline
     show_default=True,
 )
 @click.option(
+    "-r",
     "--random-state",
     default=42,
     type=int,
     show_default=True,
 )
 @click.option(
+    "-t",
     "--test-split-ratio",
     default=0.2,
     type=click.FloatRange(0, 1, min_open=True, max_open=True),
     show_default=True,
 )
 @click.option(
+    "-mod",
+    "--model_name",
+    default="random_forest",
+    type=click.STRING,
+    show_default=True,
+)
+@click.option(
+    "-min",
     "--min_samples_split",
     default=2,
     type=int,
     show_default=True,
 )
 @click.option(
+    "-crit",
     "--criterion",
     default="gini",
     type=click.STRING,
     show_default=True,
 )
 @click.option(
+    "-max",
     "--max_depth",
     default=100,
     type=int,
@@ -63,6 +75,7 @@ def train_model(
     save_model_path: Path,
     random_state: int,
     test_split_ratio: float,
+    model_name: str,
     min_samples_split: int,
     criterion: str,
     max_depth: int
@@ -78,7 +91,7 @@ def train_model(
     cv = KFold(n_splits=3, random_state=random_state, shuffle=True)
     y_predicted = pipe.predict(x_test)
 
-    with mlflow.start_run():
+    with mlflow.start_run(run_name=model_name):
         accuracy = np.max(cross_val_score(pipe, x_train, y_train, scoring='accuracy', cv=cv))
         f1 = np.max(cross_val_score(pipe, x_train, y_train, scoring='f1_micro', cv=cv))
         precision = np.max(cross_val_score(pipe, x_train, y_train, scoring='precision_micro', cv=cv))

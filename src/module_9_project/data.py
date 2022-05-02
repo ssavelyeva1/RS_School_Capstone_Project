@@ -9,7 +9,14 @@ def get_dataset(file_path: Path):
     return data
 
 
-def dataset_split(file_path: Path, random_state: int, test_split_ratio: float):
+def dataset_split(file_path: Path):
+    data = pd.read_csv(file_path)
+    features = data.drop(["Id", "Cover_Type"], axis=1)
+    target = data["Cover_Type"]
+    return features, target
+
+
+def dataset_train_test_split(file_path: Path, random_state: int, test_split_ratio: float):
     data = pd.read_csv(file_path)
     features = data.drop(["Id", "Cover_Type"], axis=1)
     target = data["Cover_Type"]

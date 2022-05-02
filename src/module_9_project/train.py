@@ -96,7 +96,8 @@ def train_model(
     criterion: str,
     max_depth: int
 ):
-    x_train, x_test, y_train, y_test = dataset_split(dataset_path, random_state, test_split_ratio)
+    # x_train, x_test, y_train, y_test = dataset_split(dataset_path, random_state, test_split_ratio)
+    x, y = dataset_split(dataset_path)
 
     experiment_name = "forest_experiment"
     if not mlflow.get_experiment_by_name(experiment_name):
@@ -112,15 +113,15 @@ def train_model(
         "reg__max_depth": [100, 75, 125]
     }
 
-    result = GridSearchCV(pipe, space, scoring='accuracy', n_jobs=1, cv=cv_inner, refit=True).fit(x_train, y_train)
+    result = GridSearchCV(pipe, space, scoring='accuracy', n_jobs=1, cv=cv_inner, refit=True).fit(x, y)
     best_model = result.best_estimator_
     best_parameters = result.best_params_
 
     run_name = model_name + ", " + scaler_type + " scaler"
     with mlflow.start_run(run_name=run_name):
-        accuracy = np.max(cross_val_score(best_model, x_train, y_train, scoring='accuracy', cv=cv_outer))
-        f1 = np.max(cross_val_score(best_model, x_train, y_train, scoring='f1_micro', cv=cv_outer))
-        precision = np.max(cross_val_score(best_model, x_train, y_train, scoring='precision_micro', cv=cv_outer))
+        accuracy = np.max(cross_val_score(best_model, x, y, scoring='accuracy', cv=cv_outer))
+        f1 = np.max(cross_val_score(best_model, x, y, scoring='f1_micro', cv=cv_outer))
+        precision = np.max(cross_val_score(best_model, x, y, scoring='precision_micro', cv=cv_outer))
 
         model_parameters = best_parameters
         model_metrics = {

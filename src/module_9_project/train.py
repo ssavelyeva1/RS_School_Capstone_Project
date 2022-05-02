@@ -8,6 +8,7 @@ from sklearn import metrics
 from sklearn.metrics import accuracy_score, f1_score, precision_score
 from sklearn.model_selection import KFold
 from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import GridSearchCV
 
 from .data import dataset_split
 from .pipeline import create_pipeline
@@ -101,27 +102,27 @@ def train_model(
     if not mlflow.get_experiment_by_name(experiment_name):
         mlflow.create_experiment(name=experiment_name)
 
+    cv_inner = KFold(n_splits=3, random_state=random_state, shuffle=True)
+    cv_outer = KFold(n_splits=10, shuffle=True, random_state=random_state)
     pipe = create_pipeline(model_name, scaler_type, min_samples_split, criterion, max_depth, random_state)
-    pipe.fit(x_train, y_train)
-    cv = KFold(n_splits=3, random_state=random_state, shuffle=True)
-    y_predicted = pipe.predict(x_test)
+
+    space = {
+        "reg__min_samples_split": [2, 3, 4],
+        "reg__criterion": ["gini", "entropy"],
+        "reg__max_depth": [100, 75, 125]
+    }
+
+    result = GridSearchCV(pipe, space, scoring='accuracy', n_jobs=1, cv=cv_inner, refit=True).fit(x_train, y_train)
+    best_model = result.best_estimator_
+    best_parameters = result.best_params_
 
     run_name = model_name + ", " + scaler_type + " scaler"
     with mlflow.start_run(run_name=run_name):
-        accuracy = np.max(cross_val_score(pipe, x_train, y_train, scoring='accuracy', cv=cv))
-        f1 = np.max(cross_val_score(pipe, x_train, y_train, scoring='f1_micro', cv=cv))
-        precision = np.max(cross_val_score(pipe, x_train, y_train, scoring='precision_micro', cv=cv))
+        accuracy = np.max(cross_val_score(best_model, x_train, y_train, scoring='accuracy', cv=cv_outer))
+        f1 = np.max(cross_val_score(best_model, x_train, y_train, scoring='f1_micro', cv=cv_outer))
+        precision = np.max(cross_val_score(best_model, x_train, y_train, scoring='precision_micro', cv=cv_outer))
 
-        #accuracy = metrics.accuracy_score(y_test, y_predicted)
-        #f1 = metrics.f1_score(y_test, y_predicted, average='micro')
-        #precision = metrics.precision_score(y_test, y_predicted, average='micro')
-
-        model_parameters = {
-            "min_samples_split": min_samples_split,
-            "criterion": criterion,
-            "max_depth": max_depth
-        }
-
+        model_parameters = best_parameters
         model_metrics = {
             "accuracy": accuracy,
             "f1_score": f1,

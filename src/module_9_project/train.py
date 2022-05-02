@@ -50,17 +50,17 @@ from .pipeline import create_pipeline
     show_default=True,
 )
 @click.option(
-    "-mod",
-    "--model_name",
-    default="random_forest",
-    type=click.STRING,
-    show_default=True,
-)
-@click.option(
     "-scale",
     "--scaler_type",
     default="standard",
     type=str,
+    show_default=True,
+)
+@click.option(
+    "-max",
+    "--min_samples_split",
+    default=2,
+    type=int,
     show_default=True,
 )
 @click.option(
@@ -99,7 +99,8 @@ def train_model(
     cv = KFold(n_splits=3, random_state=random_state, shuffle=True)
     y_predicted = pipe.predict(x_test)
 
-    with mlflow.start_run(run_name=model_name):
+    run_name = model_name + ", " + scaler_type + " scaler"
+    with mlflow.start_run(run_name=run_name):
         accuracy = np.max(cross_val_score(pipe, x_train, y_train, scoring='accuracy', cv=cv))
         f1 = np.max(cross_val_score(pipe, x_train, y_train, scoring='f1_micro', cv=cv))
         precision = np.max(cross_val_score(pipe, x_train, y_train, scoring='precision_micro', cv=cv))

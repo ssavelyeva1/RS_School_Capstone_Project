@@ -20,6 +20,7 @@ from .pipeline import create_pipeline
     default="data/train.csv",
     type=click.Path(exists=True, dir_okay=False, path_type=Path),
     show_default=True,
+    help='path to the dataset'
 )
 @click.option(
     "-s",
@@ -27,20 +28,21 @@ from .pipeline import create_pipeline
     default="data/model.joblib",
     type=click.Path(dir_okay=False, writable=True, path_type=Path),
     show_default=True,
+    help='path to save the model'
 )
 @click.option(
     "-r",
     "--random-state",
     default=42,
     type=int,
-    show_default=True,
+    show_default=True
 )
 @click.option(
     "-t",
     "--test-split-ratio",
     default=0.2,
     type=click.FloatRange(0, 1, min_open=True, max_open=True),
-    show_default=True,
+    show_default=True
 )
 @click.option(
     "-mod",
@@ -48,6 +50,7 @@ from .pipeline import create_pipeline
     default="random_forest",
     type=click.STRING,
     show_default=True,
+    help='model name: random_forest / extra_trees'
 )
 @click.option(
     "-scale",
@@ -55,6 +58,7 @@ from .pipeline import create_pipeline
     default="standard",
     type=str,
     show_default=True,
+    help='scaler type: standard / min_max'
 )
 @click.option(
     "-max",
@@ -62,6 +66,7 @@ from .pipeline import create_pipeline
     default=2,
     type=int,
     show_default=True,
+    help='minimal samples parameter value'
 )
 @click.option(
     "-crit",
@@ -69,6 +74,7 @@ from .pipeline import create_pipeline
     default="gini",
     type=click.STRING,
     show_default=True,
+    help='criterion: gini / entropy'
 )
 @click.option(
     "-max",
@@ -76,6 +82,7 @@ from .pipeline import create_pipeline
     default=100,
     type=int,
     show_default=True,
+    help='maximal depth parameter value'
 )
 def train_model(
     dataset_path: Path,

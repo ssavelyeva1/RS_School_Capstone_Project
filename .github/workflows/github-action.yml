@@ -4,6 +4,4 @@ jobs:
   run-tests-on-push:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout
       - run: poetry run pytest
-      - run: poetry run nox

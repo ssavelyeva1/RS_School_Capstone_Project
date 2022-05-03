@@ -1,10 +1,11 @@
 from pathlib import Path
 from click.testing import CliRunner
-from joblib import load, dump
+from joblib import load
 import pytest
 
-from sklearn.pipeline import Pipeline
 import pandas as pd
+import sklearn
+from sklearn.pipeline import Pipeline
 
 from module_9_project.data import get_dataset, dataset_split, dataset_train_test_split
 from module_9_project.train import train_model
@@ -74,7 +75,7 @@ def test_error_for_invalid_train_model_path(
            "does not exist." in result.output
 
 
-def test_saving_path_train_model(
+def test_saving_path_for_train_model(
         runner: CliRunner
 ) -> None:
     """Test checks where model is saved for train_model."""
@@ -82,11 +83,10 @@ def test_saving_path_train_model(
         train_model,
         [
             "--dataset-path",
-            "tests/test_data.csv",
-            "--model_name",
-            "random_forest"
+            "tests/test_data.csv"
         ],
     )
     saved_model = Path("data/model.joblib")
     assert saved_model.exists()
     loaded_model = load("data/model.joblib")
+    assert isinstance(loaded_model, sklearn.pipeline.Pipeline)

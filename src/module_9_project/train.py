@@ -1,5 +1,5 @@
 from pathlib import Path
-from joblib import dump
+from joblib import load, dump
 import numpy as np
 import click
 import mlflow
@@ -30,13 +30,6 @@ from .pipeline import create_pipeline
     help="path to save the model",
 )
 @click.option("-r", "--random-state", default=42, type=int, show_default=True)
-@click.option(
-    "-t",
-    "--test-split-ratio",
-    default=0.2,
-    type=click.FloatRange(0, 1, min_open=True, max_open=True),
-    show_default=True,
-)
 @click.option(
     "-mod",
     "--model_name",
@@ -130,3 +123,7 @@ def train_model(
         click.echo(f"Accuracy: {accuracy}")
         dump(pipe, save_model_path)
         click.echo(f"Model is saved to {save_model_path}.")
+
+        saved_model = load(save_model_path)
+        click.echo(type(saved_model))
+

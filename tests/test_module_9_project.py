@@ -90,3 +90,6 @@ def test_saving_path_for_train_model(
     assert saved_model.exists()
     loaded_model = load("data/model.joblib")
     assert isinstance(loaded_model, Pipeline)
+
+### test github action on push
+

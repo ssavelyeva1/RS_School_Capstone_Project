@@ -1,10 +1,10 @@
 from pathlib import Path
+import click
 from click.testing import CliRunner
 from joblib import load
 import pytest
 
 import pandas as pd
-import sklearn
 from sklearn.pipeline import Pipeline
 
 from module_9_project.data import get_dataset, dataset_split, dataset_train_test_split
@@ -89,4 +89,4 @@ def test_saving_path_for_train_model(
     saved_model = Path("data/model.joblib")
     assert saved_model.exists()
     loaded_model = load("data/model.joblib")
-    assert isinstance(loaded_model, sklearn.pipeline.Pipeline)
+    assert isinstance(loaded_model, Pipeline)

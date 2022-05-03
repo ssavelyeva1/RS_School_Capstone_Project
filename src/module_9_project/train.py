@@ -126,4 +126,3 @@ def train_model(
 
         saved_model = load(save_model_path)
         click.echo(type(saved_model))
-

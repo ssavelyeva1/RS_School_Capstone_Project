@@ -81,14 +81,12 @@ def train_model(
     dataset_path: Path,
     save_model_path: Path,
     random_state: int,
-    test_split_ratio: float,
     model_name: str,
     scaler_type: str,
     min_samples_split: int,
     criterion: str,
     max_depth: int,
 ):
-    # x_train, x_test, y_train, y_test = dataset_split(dataset_path, random_state, test_split_ratio)
     x, y = dataset_split(dataset_path)
 
     experiment_name = "forest_experiment"

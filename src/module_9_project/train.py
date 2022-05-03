@@ -4,8 +4,6 @@ import numpy as np
 import click
 import mlflow
 import mlflow.sklearn
-from sklearn import metrics
-from sklearn.metrics import accuracy_score, f1_score, precision_score
 from sklearn.model_selection import KFold
 from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import GridSearchCV

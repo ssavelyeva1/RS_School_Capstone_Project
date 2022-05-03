@@ -30,3 +30,12 @@ poetry run mlflow ui
 ![mlflow](https://user-images.githubusercontent.com/38406698/166170177-fd28496d-54ed-4aa9-a8d8-549285836fcb.png)
 
 ## Development
+
+
+## Additional information
+The code was formatted with *black*:
+![black](https://user-images.githubusercontent.com/38406698/166344614-cc0a8f48-cd54-48e6-b1d1-f11e35d3a54c.png)
+
+The code was linted with *flake8*:
+![flake8](https://user-images.githubusercontent.com/38406698/166345519-8e1b1387-3c63-41a1-bf70-c4e9cede3c2b.png)
+

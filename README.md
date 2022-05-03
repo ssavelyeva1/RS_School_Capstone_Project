@@ -39,7 +39,7 @@ To run the tests run the following command:
 poetry run pytest
 ```
 ![pytest](https://user-images.githubusercontent.com/38406698/166552440-448f633a-1263-4c99-a0be-d4929f1c5569.png)
-*nox* was used for multiple sessions run (including black formatting, flake8 linting and mypy type-checking):
+To run black formatting, flake8 linting and mypy type-checking use *nox* for multiple sessions run:
 ![nox](https://user-images.githubusercontent.com/38406698/166551661-987043f4-da8e-40f9-9938-264f30680682.png)
 To start nox before commiting use command:
 ```

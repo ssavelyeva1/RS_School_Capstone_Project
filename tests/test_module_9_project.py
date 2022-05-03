@@ -1,4 +1,6 @@
+from pathlib import Path
 from click.testing import CliRunner
+from joblib import load, dump
 import pytest
 
 from sklearn.pipeline import Pipeline
@@ -40,9 +42,7 @@ def test_error_for_invalid_test_split_ratio() -> None:
     random_state = 42
     test_split_ratio = 24
     with pytest.raises(ValueError):
-        features_train, features_val, target_train, target_val = dataset_train_test_split(
-            file_path, random_state, test_split_ratio
-        )
+        dataset_train_test_split(file_path, random_state, test_split_ratio)
 
 
 def test_dataset_train_test_split_return() -> None:
@@ -58,7 +58,35 @@ def test_dataset_train_test_split_return() -> None:
     assert isinstance(target_val, pd.Series)
 
 
+def test_error_for_invalid_train_model_path(
+    runner: CliRunner
+) -> None:
+    """Test fails when path for function train_model is invalid."""
+    result = runner.invoke(
+        train_model,
+        [
+            "--dataset-path",
+            "incorrect/path/train.csv"
+        ],
+    )
+    assert result.exit_code == 2
+    assert "Error: Invalid value for '-d' / '--dataset-path': File 'incorrect/path/train.csv' " \
+           "does not exist." in result.output
 
 
-
-
+def test_saving_path_train_model(
+        runner: CliRunner
+) -> None:
+    """Test checks where model is saved for train_model."""
+    result = runner.invoke(
+        train_model,
+        [
+            "--dataset-path",
+            "tests/test_data.csv",
+            "--model_name",
+            "random_forest"
+        ],
+    )
+    saved_model = Path("data/model.joblib")
+    assert saved_model.exists()
+    loaded_model = load("data/model.joblib")

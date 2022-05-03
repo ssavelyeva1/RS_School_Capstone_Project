@@ -39,3 +39,7 @@ The code was formatted with *black*:
 The code was linted with *flake8*:
 ![flake8](https://user-images.githubusercontent.com/38406698/166345519-8e1b1387-3c63-41a1-bf70-c4e9cede3c2b.png)
 
+The code was type-checked with *mypy*:
+![mypy](https://user-images.githubusercontent.com/38406698/166372514-d48f2e36-e202-4045-bba6-959d7d47c669.png)
+
+

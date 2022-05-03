@@ -30,16 +30,20 @@ poetry run mlflow ui
 ![mlflow](https://user-images.githubusercontent.com/38406698/166170177-fd28496d-54ed-4aa9-a8d8-549285836fcb.png)
 
 ## Development
-
-
-## Additional information
-The code was formatted with *black*:
-![black](https://user-images.githubusercontent.com/38406698/166344614-cc0a8f48-cd54-48e6-b1d1-f11e35d3a54c.png)
-
-The code was linted with *flake8*:
-![flake8](https://user-images.githubusercontent.com/38406698/166345519-8e1b1387-3c63-41a1-bf70-c4e9cede3c2b.png)
-
-The code was type-checked with *mypy*:
-![mypy](https://user-images.githubusercontent.com/38406698/166372514-d48f2e36-e202-4045-bba6-959d7d47c669.png)
+Install all requirements (including dev requirements) to poetry environment:
+```
+poetry install
+```
+To run the tests run the following command:
+```
+poetry run pytest
+```
+![pytest](https://user-images.githubusercontent.com/38406698/166552440-448f633a-1263-4c99-a0be-d4929f1c5569.png)
+*nox* was used for multiple sessions run (including black formatting, flake8 linting and mypy type-checking):
+![nox](https://user-images.githubusercontent.com/38406698/166551661-987043f4-da8e-40f9-9938-264f30680682.png)
+To start nox before commiting use command:
+```
+poetry run nox
+```
 
 

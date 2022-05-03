@@ -83,13 +83,14 @@ def test_saving_path_for_train_model(
         train_model,
         [
             "--dataset-path",
-            "tests/test_data.csv"
+            "tests/test_data.csv",
+            "--save-model-path",
+            "tests/model.joblib"
         ],
     )
-    saved_model = Path("data/model.joblib")
+    saved_model = Path("tests/model.joblib")
     assert saved_model.exists()
-    loaded_model = load("data/model.joblib")
+    loaded_model = load("tests/model.joblib")
     assert isinstance(loaded_model, Pipeline)
 
-### test github action on push
 

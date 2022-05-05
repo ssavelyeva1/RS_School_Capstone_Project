@@ -17,6 +17,8 @@ def create_pipeline(
         scaler = StandardScaler()
     elif scaler_type == "min_max":
         scaler = MinMaxScaler()
+    else:
+        raise ValueError("Scaler type is now allowed, try 'standard' or 'min_max'")
 
     if model_name == "random_forest":
         regressor = ensemble.RandomForestClassifier(
@@ -32,7 +34,10 @@ def create_pipeline(
             max_depth=max_depth,
             random_state=random_state,
         )
+    else:
+        raise ValueError("Model type is now allowed, try 'random_forest' or 'extra_trees'")
 
     pipe_steps = [("sca", scaler), ("reg", regressor)]
 
     return Pipeline(steps=pipe_steps)
+

@@ -44,7 +44,9 @@ def test_saving_path_for_train_model(
     )
     saved_model = Path("tests/test_data/model.joblib")
     assert saved_model.exists()
-    loaded_model = load("tests/test_data/model.joblib")
+    loaded_model = load(saved_model)
     assert isinstance(loaded_model, Pipeline)
+    Path.unlink(saved_model)
+
 
 

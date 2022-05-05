@@ -35,9 +35,10 @@ def create_pipeline(
             random_state=random_state,
         )
     else:
-        raise ValueError("Model type is now allowed, try 'random_forest' or 'extra_trees'")
+        raise ValueError(
+            "Model type is now allowed, try 'random_forest' or 'extra_trees'"
+        )
 
     pipe_steps = [("sca", scaler), ("reg", regressor)]
 
     return Pipeline(steps=pipe_steps)
-

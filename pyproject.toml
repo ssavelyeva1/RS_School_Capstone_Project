@@ -2,12 +2,11 @@
 name = "module_9_project"
 version = "0.1.0"
 description = ""
-authors = ["Savelyeva_A <Aliaksandra.Savelyeva@ibm.com>"]
+authors = ["Savelyeva_A <aliaksandra.savelyeva@gmail.com>"]
 
 [tool.poetry.scripts]
 eda = "module_9_project.eda:get_eda_profile"
 train = "module_9_project.train:train_model"
-test = "module_9_project.test_file:foo"
 
 [tool.poetry.dependencies]
 python = "^3.8"

@@ -121,8 +121,6 @@ def train_model(
         mlflow.log_metrics(model_metrics)
 
         click.echo(f"Accuracy: {accuracy}")
-        dump(pipe, save_model_path)
+        dump(result, save_model_path)
         click.echo(f"Model is saved to {save_model_path}.")
-
-        saved_model = load(save_model_path)
-        click.echo(type(saved_model))
+        click.echo(f"Model best parameters: {model_parameters}.")

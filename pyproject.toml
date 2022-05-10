@@ -7,6 +7,7 @@ authors = ["Savelyeva_A <aliaksandra.savelyeva@gmail.com>"]
 [tool.poetry.scripts]
 eda = "module_9_project.eda:get_eda_profile"
 train = "module_9_project.train:train_model"
+predict = "module_9_project.predict:predict_model"
 
 [tool.poetry.dependencies]
 python = "^3.8"

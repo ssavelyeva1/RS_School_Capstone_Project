@@ -42,7 +42,7 @@ To run the tests run the following command:
 ```
 poetry run pytest
 ```
-![pytest](https://user-images.githubusercontent.com/38406698/166552440-448f633a-1263-4c99-a0be-d4929f1c5569.png)
+![pytest](https://user-images.githubusercontent.com/38406698/167662764-5c768d90-50ce-485d-a09d-f9c4162e157c.png)
 To run black formatting, flake8 linting and mypy type-checking use *nox* for multiple sessions run:
 ```
 poetry run nox

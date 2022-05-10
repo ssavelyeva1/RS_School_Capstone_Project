@@ -28,6 +28,10 @@ poetry run train --help
 poetry run mlflow ui
 ```
 ![mlflow](https://user-images.githubusercontent.com/38406698/166170177-fd28496d-54ed-4aa9-a8d8-549285836fcb.png)
+8. To get the csv file with predictions run the following command:
+```sh
+poetry run predict
+```
 
 ## Development
 Install all requirements (including dev requirements) to poetry environment:

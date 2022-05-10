@@ -22,9 +22,17 @@ from module_9_project.data import get_dataset
     default="data/model.joblib",
     type=click.Path(dir_okay=False, writable=True, path_type=Path),
     show_default=True,
-    help="path to the saved the model",
+    help="path to the saved model",
 )
-def predict_model(test_path: Path, saved_model_path: Path):
+@click.option(
+    "-p",
+    "--prediction-path",
+    default="data",
+    type=click.STRING,
+    show_default=True,
+    help="path where to save the predictions",
+)
+def predict_model(test_path: Path, saved_model_path: Path, prediction_path: str):
     test_data = get_dataset(test_path)
     saved_model = load(saved_model_path)
     y_predicted = saved_model.predict(test_data)
@@ -32,4 +40,4 @@ def predict_model(test_path: Path, saved_model_path: Path):
     submit_df = pd.DataFrame(columns=["Id", "Cover_Type"])
     submit_df["Id"] = test_data.reset_index()["Id"]
     submit_df["Cover_Type"] = y_predicted
-    submit_df.to_csv(os.path.join("data", "submit.csv"), index=False)
+    submit_df.to_csv(os.path.join(prediction_path, "submit.csv"), index=False)

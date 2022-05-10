@@ -46,4 +46,3 @@ def test_saving_path_for_train_model(
     assert saved_model.exists()
     loaded_model = load(saved_model)
     assert isinstance(loaded_model, GridSearchCV)
-    Path.unlink(saved_model)

@@ -33,7 +33,7 @@ def test_saving_path_for_train_model(
         runner: CliRunner
 ) -> None:
     """Test checks where model is saved for train_model."""
-    result = runner.invoke(
+    runner.invoke(
         train_model,
         [
             "--dataset-path",
@@ -47,6 +47,3 @@ def test_saving_path_for_train_model(
     loaded_model = load(saved_model)
     assert isinstance(loaded_model, GridSearchCV)
     Path.unlink(saved_model)
-
-
-

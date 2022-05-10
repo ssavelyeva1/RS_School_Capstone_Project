@@ -20,4 +20,3 @@ def test_pipeline_invalid_scaler() -> None:
     """Test fails when scaler_type is not correct in pipeline function"""
     with pytest.raises(ValueError):
         create_pipeline("random_forest", "invalid_scaler", 2, "gini", 100, 42)
-

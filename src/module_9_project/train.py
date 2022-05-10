@@ -104,23 +104,24 @@ def train_model(
     best_model = result.best_estimator_
     best_parameters = result.best_params_
 
-    run_name = model_name + ", " + scaler_type + " scaler"
-    with mlflow.start_run(run_name=run_name):
-        accuracy = np.max(
-            cross_val_score(best_model, x, y, scoring="accuracy", cv=cv_outer)
-        )
-        f1 = np.max(cross_val_score(best_model, x, y, scoring="f1_micro", cv=cv_outer))
-        precision = np.max(
-            cross_val_score(best_model, x, y, scoring="precision_micro", cv=cv_outer)
-        )
+    # run_name = model_name + ", " + scaler_type + " scaler"
+    # with mlflow.start_run(run_name=run_name):
+    #     accuracy = np.max(
+    #         cross_val_score(best_model, x, y, scoring="accuracy", cv=cv_outer)
+    #     )
+    #     f1 = np.max(cross_val_score(best_model, x, y, scoring="f1_micro", cv=cv_outer))
+    #     precision = np.max(
+    #         cross_val_score(best_model, x, y, scoring="precision_micro", cv=cv_outer)
+    #     )
+    #
+    #     model_parameters = best_parameters
+    #     model_metrics = {"accuracy": accuracy, "f1_score": f1, "precision": precision}
+    #
+    #     mlflow.log_params(model_parameters)
+    #     mlflow.log_metrics(model_metrics)
 
-        model_parameters = best_parameters
-        model_metrics = {"accuracy": accuracy, "f1_score": f1, "precision": precision}
-
-        mlflow.log_params(model_parameters)
-        mlflow.log_metrics(model_metrics)
-
-        click.echo(f"Accuracy: {accuracy}")
-        dump(result, save_model_path)
-        click.echo(f"Model is saved to {save_model_path}.")
-        click.echo(f"Model best parameters: {model_parameters}.")
+    # click.echo(f"Accuracy: {accuracy}")
+    dump(result, save_model_path)
+    click.echo(type(result))
+    # click.echo(f"Model is saved to {save_model_path}.")
+    # click.echo(f"Model best parameters: {model_parameters}.")

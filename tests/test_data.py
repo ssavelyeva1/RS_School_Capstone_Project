@@ -16,7 +16,7 @@ def test_dataset_split_return() -> None:
     features, target = dataset_split("tests/test_data/test_data.csv")
     assert isinstance(features, pd.DataFrame)
     assert isinstance(target, pd.Series)
-    assert features.shape == (20, 55)
+    assert features.shape == (20, 56)
     assert target.shape == (20, )
 
 
@@ -28,9 +28,9 @@ def test_dataset_train_test_split_return() -> None:
         test_split_ratio=0.2
     )
     assert isinstance(features_train, pd.DataFrame)
-    assert features_train.shape == (16, 55)
+    assert features_train.shape == (16, 56)
     assert isinstance(features_val, pd.DataFrame)
-    assert features_val.shape == (4, 55)
+    assert features_val.shape == (4, 56)
     assert isinstance(target_train, pd.Series)
     assert target_train.shape == (16, )
     assert isinstance(target_val, pd.Series)

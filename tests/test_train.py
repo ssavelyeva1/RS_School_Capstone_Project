@@ -2,7 +2,7 @@ from pathlib import Path
 from click.testing import CliRunner
 from joblib import load
 import pytest
-from sklearn.pipeline import Pipeline
+from sklearn.model_selection import GridSearchCV
 
 from module_9_project.train import train_model
 
@@ -45,7 +45,7 @@ def test_saving_path_for_train_model(
     saved_model = Path("tests/test_data/model.joblib")
     assert saved_model.exists()
     loaded_model = load(saved_model)
-    assert isinstance(loaded_model, Pipeline)
+    assert isinstance(loaded_model, GridSearchCV)
     Path.unlink(saved_model)
 
 
